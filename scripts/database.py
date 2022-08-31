@@ -1,3 +1,5 @@
+import json
+
 class Client:
 
     def __init__(self, id, name, lastName):
@@ -11,32 +13,39 @@ class Client:
 
 class Clients:
 
-    toList = []
+    db = []
+    _db_json = open('db.json','a+')
 
     @staticmethod
     def find(id):
-        for client in Clients.toList:
+        for client in Clients.db:
             if client.id == id:
                 return client
     
     @staticmethod
     def create(id, name, lastName):
         client = Client(id, name, lastName)
-        Clients.toList.append(client)
+        Clients.db.append(client)
         return client
 
     @staticmethod
     def modify(id, name, lastName):
-        for index, client in enumerate(Clients.toList):
+        for index, client in enumerate(Clients.db):
             if client.id == id:
-                Clients.toList[index].name = name
-                Clients.toList[index].lastName = lastName
-                return Clients.toList[index] 
+                Clients.db[index].name = name
+                Clients.db[index].lastName = lastName
+                return Clients.db[index] 
     
+    @staticmethod
     def delete(id):
-        for index, client in enumerate(Clients.toList):
+        for index, client in enumerate(Clients.db):
             if client.id == id:
-                return Clients.toList.pop(index)
+                return Clients.db.pop(index)
                 
-
+    def _update():
+        data = {}
+        data['clients'] = []
+        for client in Clients.db:
+            data['clients'].append({'id':client.id,'name':client.name,'lastName':client.lastName})
+        json.dump(data , Clients._db_json, indent = 4)
     

@@ -1,12 +1,12 @@
 import unittest
 import copy
-import scripts.database as db
+from scripts import database as db
 
 
 class TestDatabase(unittest.TestCase):
 
     def setUp(self):
-        db.Clients.toList = [
+        db.Clients.db = [
             db.Client('x54', 'Carlos', 'Ruiz'),
             db.Client('j35', 'Ricardo', 'Ruiz'),
             db.Client('x27', 'Ana', 'Lozano')
