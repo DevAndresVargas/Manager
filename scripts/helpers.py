@@ -10,3 +10,4 @@ def read_text(min = 0, max = 100 ,message = None):
         text = input('> ')
         if len(text) >= min and len(text) <= max:
             return text
+
