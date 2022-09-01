@@ -1,4 +1,6 @@
 import json
+import csv
+from scripts import config
 
 class Client:
 
@@ -14,7 +16,13 @@ class Client:
 class Clients:
 
     db = []
-    _db_json = open('db.json','a+')
+    with open(config.DATABASE_PATH, newline= '\n') as csvfile:
+        reader = csv.reader(csvfile,delimiter= ';')
+        for id, name, lastName in reader:
+            client = Client(id, name, lastName)
+            db.append(client)
+    # _db_json = open('data/db.json','a+')  # ?Fichero .Json
+
 
     @staticmethod
     def find(id):
@@ -26,6 +34,7 @@ class Clients:
     def create(id, name, lastName):
         client = Client(id, name, lastName)
         Clients.db.append(client)
+        Clients.save()
         return client
 
     @staticmethod
@@ -34,18 +43,31 @@ class Clients:
             if client.id == id:
                 Clients.db[index].name = name
                 Clients.db[index].lastName = lastName
+                Clients.save()
                 return Clients.db[index] 
     
     @staticmethod
     def delete(id):
         for index, client in enumerate(Clients.db):
             if client.id == id:
-                return Clients.db.pop(index)
-                
-    def _update():
-        data = {}
-        data['clients'] = []
-        for client in Clients.db:
-            data['clients'].append({'id':client.id,'name':client.name,'lastName':client.lastName})
-        json.dump(data , Clients._db_json, indent = 4)
+                client = Clients.db.pop(index)
+                Clients.save()
+
+                return client
+
+    @staticmethod
+    def save():
+        with open(config.DATABASE_PATH, 'w', newline='\n') as csvfile:
+            writer = csv.writer(csvfile, delimiter = ';')
+            for client in Clients.db:
+                writer.writerow((client.id, client.name, client.lastName))
+
+    #?=============================.JSON=============================     
+    # def _update():
+    #     data = {}
+    #     data['clients'] = []
+    #     for client in Clients.db:
+    #         data['clients'].append({'id':client.id,'name':client.name,'lastName':client.lastName})
+    #     json.dump(data , Clients._db_json, indent = 4)
+    #?===============================================================     
     

@@ -31,16 +31,23 @@ def init():
 
             case 2:
                 print('Search client...\n')
-                id = helpers.read_text(3,3,"ID (1 char - 2 int)").upper()
+                id = helpers.read_text(3,3,"ID (2 char - 1 int)").upper()
                 client = db.Clients.find(id)
                 print(client) if client else print("Client not find")
+
+
             case 3:
                 print('Adding client...\n')
-                id = helpers.read_text(3, 3, "ID (1 char - 2 int)").upper()
+                while True:
+                    id = helpers.read_text(3, 3, "ID (2 char - 1 int)").upper()
+                    if helpers.id_valid(id,db.Clients.db):
+                        break
+
                 name = helpers.read_text(3, 30, "Name (3-30 char)").capitalize()
                 lastName = helpers.read_text(3, 30, "LastName (3-30 charss)").capitalize()
                 client = db.Clients.create(id, name, lastName)
                 print("Client Created")
+
 
             case 4:
                 print('Modifying client...\n')
@@ -48,29 +55,29 @@ def init():
                 client = db.Clients.find(id)
 
                 if client:
-                    name = helpers.read_text(3, 30,f"New Name(3-30 chars) OldName[{client.name}]")
-                    lastName = helpers.read_text(3, 30,f"New LastName(3-30 chars) OldLastName[{client.lastName}]")
+                    name = helpers.read_text(3, 30,f"(3-30 chars) OldName [{client.name}]")
+                    lastName = helpers.read_text(3, 30,f"(3-30 chars) OldLastName [{client.lastName}]")
                     db.Clients.modify(id, name, lastName)
+                else:
+                    print("cliente no encontrado.")
+
 
             case 5: 
                 print('Deleting client...\n')
-                for client in db.Clients.db:
-                    print(client)
-                print("=============================\n")
-                id = helpers.read_text(3,3,"ID (1 char - 2 int)").upper()
-                client = db.Clients.delete(id)
+                
+                id = helpers.read_text(3,3,"ID (2 char - 1 int)").upper()
 
-                if client:
-                    print(f"Client: [{client.id}] {client.name} {client.lastName} delete succesfull...")
+                print(f"Client: [{client.id}] {client.name} {client.lastName} delete succesfull.") if db.Clients.delete(id) else print(f"CLient not found.")
 
-                # TODO
             case 6:
+
+
                 print('Exit...\n')
-                db.Clients._update()
+                # db.Clients._update() #? JSON
                 break
         input("\nPress Enter to continue...")
         
-    
+
     input("\nPress Enter to continue...")
             
         
