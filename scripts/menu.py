@@ -1,5 +1,5 @@
-import helpers
-import database as db
+from scripts import helpers
+from scripts import database as db
 
 def init():
     while True:
