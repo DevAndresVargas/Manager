@@ -1,6 +1,6 @@
 import json
 import csv
-from scripts import config
+import config
 
 class Client:
 
