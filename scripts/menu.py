@@ -56,10 +56,10 @@ def init():
 
                 if client:
                     name = helpers.read_text(3, 30,f"(3-30 chars) OldName [{client.name}]")
-                    lastName = helpers.read_text(3, 30,f"(3-30 chars) OldLastName [{client.lastName}]")
+                    lastName = helpers.read_text(3, 30,f"(3-30 chars) OldLastName [{client.lastName}]").capitalize()
                     db.Clients.modify(id, name, lastName)
                 else:
-                    print("cliente no encontrado.")
+                    print("Client not found.")
 
 
             case 5: 
