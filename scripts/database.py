@@ -1,5 +1,5 @@
 import json
-import csv
+import sqlite3
 from scripts import config
 
 class Client:
@@ -57,10 +57,7 @@ class Clients:
 
     @staticmethod
     def save():
-        with open(config.DATABASE_PATH, 'w', newline='\n') as csvfile:
-            writer = csv.writer(csvfile, delimiter = ';')
-            for client in Clients.db:
-                writer.writerow((client.id, client.name, client.lastName))
+        pass
 
     #?=============================.JSON=============================     
     # def _update():
