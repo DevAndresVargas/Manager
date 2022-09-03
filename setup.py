@@ -8,5 +8,7 @@ setup(
     author_email='devandresvargas@gmail.com',
     url='',
     packages=['scripts'],
-    scripts=['run.py']
+    scripts=['run.py'],
+    test_suite='tests',
 )
+
