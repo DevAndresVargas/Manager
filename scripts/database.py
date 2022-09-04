@@ -1,6 +1,9 @@
 import json
 import sqlite3
-from scripts import config
+if __name__ == "__main__":
+    import config
+else:
+    from scripts import config
 
 class Client:
 
@@ -16,12 +19,23 @@ class Client:
 class Clients:
 
     db = []
-    with open(config.DATABASE_PATH, newline= '\n') as csvfile:
-        reader = csv.reader(csvfile,delimiter= ';')
-        for id, name, lastName in reader:
-            client = Client(id, name, lastName)
-            db.append(client)
-    # _db_json = open('data/db.json','a+')  # ?Fichero .Json
+    db_Path = config.resource_path('data/database.db')
+
+    connection = sqlite3.connect(db_Path)
+    cursor = connection.cursor()
+    cursor.execute('CREATE TABLE IF NOT EXISTS clients (id INTEGER, name VARCHAR(30), last_name VARCHAR(30))')
+
+    connection = sqlite3.connect(db_Path)
+    cursor = connection.cursor()
+    cursor.execute( 'SELECT * FROM clients')
+
+    for row in cursor.fetchall():
+        client = Client(id=row[0], name=row[1], lastName=row[2])
+        db.append(client)
+    
+    connection.commit()
+    connection.close()
+
 
 
     @staticmethod
@@ -48,6 +62,7 @@ class Clients:
     
     @staticmethod
     def delete(id):
+
         for index, client in enumerate(Clients.db):
             if client.id == id:
                 client = Clients.db.pop(index)
@@ -57,14 +72,16 @@ class Clients:
 
     @staticmethod
     def save():
-        pass
+        
+        connection = sqlite3.connect(Clients.db_Path)
+        cursor = connection.cursor()
+        cursor.execute("Delete from clients")
 
-    #?=============================.JSON=============================     
-    # def _update():
-    #     data = {}
-    #     data['clients'] = []
-    #     for client in Clients.db:
-    #         data['clients'].append({'id':client.id,'name':client.name,'lastName':client.lastName})
-    #     json.dump(data , Clients._db_json, indent = 4)
-    #?===============================================================     
-    
+        for client in Clients.db:
+            cursor.execute( f"INSERT INTO clients Values ('{client.id}','{client.name}','{client.lastName}')")
+
+
+        connection.commit()
+
+        connection.close()
+

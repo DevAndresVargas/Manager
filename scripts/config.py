@@ -2,6 +2,7 @@ import sys
 import os
 
 
+@staticmethod
 def resource_path(relative_path):
     try:
         base_path = sys.__MEIPASS
@@ -11,7 +12,7 @@ def resource_path(relative_path):
     
     
 
-DATABASE_PATH = resource_path('data/clients.csv')
+DATABASE_PATH = resource_path('data/DataBase')
 
 if 'pytest' in sys.argv[0]:
-    DATABASE_PATH = resource_path('tests/clients_test.csv')
+    DATABASE_PATH = resource_path('tests/DataBase')

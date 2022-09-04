@@ -131,7 +131,7 @@ class EditClientWindow(Toplevel, CenterWidgetMixin):
         Button(frame, text = "Cancel", command = self.close).grid(row = 0, column = 1)
 
         self.validations = [1,1]
-        self.updaupdate_client =update_client
+        self.update_client = update_client
         self.id = id
         self.name = name
         self.lastName = lastName
